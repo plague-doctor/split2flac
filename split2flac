@@ -521,6 +521,9 @@ split_file () {
 		# otherwise shnsplit would tell us there are no split points in the cue sheet
 		([ ${TRACKS_NUM} -eq 1 ] && shncue -s "${FILE}" "${FILE}" || cat "${CUE}";) | \
 			shnsplit -O never -o "${ENC}" -d "${OUT}" -t "%n" "${FILE}"
+		if [ ${FORMAT} == flac ] && [ -f "${OUT}/00.flac" ]; then
+		    rm -f "${OUT}/00.flac"
+        fi
 		if [ $? -ne 0 ]; then
 			emsg "Failed to split\n"
 			return 1
